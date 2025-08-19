@@ -95,7 +95,7 @@ check_panel_service_status() {
 # 更新脚本
 Update_Shell() {
     echo -e "当前脚本版本为 [ ${sh_ver} ]，开始检测最新版本..."
-    sh_new_ver=$(wget --no-check-certificate -qO- "https://host.wxgwxha.eu.org/https://raw.githubusercontent.com/wcwq98/realm/main/realm.sh" | grep 'sh_ver="' | awk -F "=" '{print $NF}' | sed 's/\"//g' | head -1)
+    sh_new_ver=$(wget --no-check-certificate -qO- "https://dg.liulisanwan.cn/https://raw.githubusercontent.com/wcwq98/realm/main/realm.sh" | grep 'sh_ver="' | awk -F "=" '{print $NF}' | sed 's/\"//g' | head -1)
     if [[ -z ${sh_new_ver} ]]; then
         echo -e "${red}检测最新版本失败！请检查网络或稍后再试。${plain}"
         return 1
@@ -110,7 +110,7 @@ Update_Shell() {
     read -p "(默认: y): " yn
     yn=${yn:-y}
     if [[ ${yn} =~ ^[Yy]$ ]]; then
-        wget -N --no-check-certificate https://host.wxgwxha.eu.org/https://raw.githubusercontent.com/wcwq98/realm/main/realm.sh -O realm.sh
+        wget -N --no-check-certificate https://dg.liulisanwan.cn/https://raw.githubusercontent.com/wcwq98/realm/main/realm.sh -O realm.sh
         if [[ $? -ne 0 ]]; then
             echo -e "${red}下载脚本失败，请检查网络连接！${plain}"
             return 1
@@ -178,7 +178,7 @@ deploy_realm() {
     mkdir -p /root/realm
     cd /root/realm
 
-    _version=$(curl -s https://host.wxgwxha.eu.org/https://api.github.com/repos/zhboner/realm/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+    _version=$(curl -s https://dg.liulisanwan.cn/https://api.github.com/repos/zhboner/realm/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
 
     if [ -z "$_version" ]; then
         echo "获取版本号失败，请检查本机能否链接 https://api.github.com/repos/zhboner/realm/releases/latest"
@@ -192,22 +192,22 @@ deploy_realm() {
 
     case "$arch-$os" in
         x86_64-linux)
-            download_url="https://host.wxgwxha.eu.org/https://github.com/zhboner/realm/releases/download/${_version}/realm-x86_64-unknown-linux-gnu.tar.gz"
+            download_url="https://dg.liulisanwan.cn/https://github.com/zhboner/realm/releases/download/${_version}/realm-x86_64-unknown-linux-gnu.tar.gz"
             ;;
         x86_64-darwin)
-            download_url="https://host.wxgwxha.eu.org/https://github.com/zhboner/realm/releases/download/${_version}/realm-x86_64-apple-darwin.tar.gz"
+            download_url="https://dg.liulisanwan.cn/https://github.com/zhboner/realm/releases/download/${_version}/realm-x86_64-apple-darwin.tar.gz"
             ;;
         aarch64-linux)
-            download_url="https://host.wxgwxha.eu.org/https://github.com/zhboner/realm/releases/download/${_version}/realm-aarch64-unknown-linux-gnu.tar.gz"
+            download_url="https://dg.liulisanwan.cn/https://github.com/zhboner/realm/releases/download/${_version}/realm-aarch64-unknown-linux-gnu.tar.gz"
             ;;
         aarch64-darwin)
-            download_url="https://host.wxgwxha.eu.org/https://github.com/zhboner/realm/releases/download/${_version}/realm-aarch64-apple-darwin.tar.gz"
+            download_url="https://dg.liulisanwan.cn/https://github.com/zhboner/realm/releases/download/${_version}/realm-aarch64-apple-darwin.tar.gz"
             ;;
         arm-linux)
-            download_url="https://host.wxgwxha.eu.org/https://github.com/zhboner/realm/releases/download/${_version}/realm-arm-unknown-linux-gnueabi.tar.gz"
+            download_url="https://dg.liulisanwan.cn/https://github.com/zhboner/realm/releases/download/${_version}/realm-arm-unknown-linux-gnueabi.tar.gz"
             ;;
         armv7-linux)
-            download_url="https://host.wxgwxha.eu.org/https://github.com/zhboner/realm/releases/download/${_version}/realm-armv7-unknown-linux-gnueabi.tar.gz"
+            download_url="https://dg.liulisanwan.cn/https://github.com/zhboner/realm/releases/download/${_version}/realm-armv7-unknown-linux-gnueabi.tar.gz"
             ;;
         *)
             echo "不支持的架构: $arch-$os"
@@ -400,7 +400,7 @@ update_realm() {
     echo "> 检测并更新 realm"
 
     current_version=$(/root/realm/realm --version 2>/dev/null | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
-    tag_version=$(curl -Ls "https://host.wxgwxha.eu.org/https://api.github.com/repos/zhboner/realm/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+    tag_version=$(curl -Ls "https://dg.liulisanwan.cn/https://api.github.com/repos/zhboner/realm/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
 
     if [[ -z "$tag_version" ]]; then
         echo -e "${red}获取 realm 版本失败，可能是由于 GitHub API 限制，请稍后再试${plain}"
@@ -415,7 +415,7 @@ update_realm() {
     echo -e "获取到 realm 最新版本: ${tag_version}，开始安装..."
 
     arch=$(uname -m)
-    wget -N --no-check-certificate -O /root/realm/realm.tar.gz "https://host.wxgwxha.eu.org/https://github.com/zhboner/realm/releases/download/${tag_version}/realm-${arch}-unknown-linux-gnu.tar.gz"
+    wget -N --no-check-certificate -O /root/realm/realm.tar.gz "https://dg.liulisanwan.cn/https://github.com/zhboner/realm/releases/download/${tag_version}/realm-${arch}-unknown-linux-gnu.tar.gz"
     
     if [[ $? -ne 0 ]]; then
         echo -e "${red}下载 realm 失败，请确保您的服务器可以访问 GitHub${plain}"
@@ -481,7 +481,7 @@ install_panel() {
     echo "检测到系统架构: $arch，将下载: $panel_file"
     
     # 下载面板文件
-    download_url="https://host.wxgwxha.eu.org/https://github.com/wcwq98/realm/releases/download/v2.1/${panel_file}"
+    download_url="https://dg.liulisanwan.cn/https://github.com/wcwq98/realm/releases/download/v2.1/${panel_file}"
     if ! wget -O "${panel_file}" "$download_url"; then
     echo "下载失败，请检查网络连接或稍后再试。"
     return 1
