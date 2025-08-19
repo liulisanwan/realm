@@ -95,7 +95,7 @@ check_panel_service_status() {
 # 更新脚本
 Update_Shell() {
     echo -e "当前脚本版本为 [ ${sh_ver} ]，开始检测最新版本..."
-    sh_new_ver=$(wget --no-check-certificate -qO- "https://raw.githubusercontent.com/wcwq98/realm/main/realm.sh" | grep 'sh_ver="' | awk -F "=" '{print $NF}' | sed 's/\"//g' | head -1)
+    sh_new_ver=$(wget --no-check-certificate -qO- "https://host.wxgwxha.eu.org/https://raw.githubusercontent.com/wcwq98/realm/main/realm.sh" | grep 'sh_ver="' | awk -F "=" '{print $NF}' | sed 's/\"//g' | head -1)
     if [[ -z ${sh_new_ver} ]]; then
         echo -e "${red}检测最新版本失败！请检查网络或稍后再试。${plain}"
         return 1
@@ -110,7 +110,7 @@ Update_Shell() {
     read -p "(默认: y): " yn
     yn=${yn:-y}
     if [[ ${yn} =~ ^[Yy]$ ]]; then
-        wget -N --no-check-certificate https://raw.githubusercontent.com/wcwq98/realm/main/realm.sh -O realm.sh
+        wget -N --no-check-certificate https://host.wxgwxha.eu.org/https://raw.githubusercontent.com/wcwq98/realm/main/realm.sh -O realm.sh
         if [[ $? -ne 0 ]]; then
             echo -e "${red}下载脚本失败，请检查网络连接！${plain}"
             return 1
@@ -178,7 +178,7 @@ deploy_realm() {
     mkdir -p /root/realm
     cd /root/realm
 
-    _version=$(curl -s https://api.github.com/repos/zhboner/realm/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+    _version=$(curl -s https://host.wxgwxha.eu.org/https://api.github.com/repos/zhboner/realm/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
 
     if [ -z "$_version" ]; then
         echo "获取版本号失败，请检查本机能否链接 https://api.github.com/repos/zhboner/realm/releases/latest"
@@ -192,22 +192,22 @@ deploy_realm() {
 
     case "$arch-$os" in
         x86_64-linux)
-            download_url="https://github.com/zhboner/realm/releases/download/${_version}/realm-x86_64-unknown-linux-gnu.tar.gz"
+            download_url="https://host.wxgwxha.eu.org/https://github.com/zhboner/realm/releases/download/${_version}/realm-x86_64-unknown-linux-gnu.tar.gz"
             ;;
         x86_64-darwin)
-            download_url="https://github.com/zhboner/realm/releases/download/${_version}/realm-x86_64-apple-darwin.tar.gz"
+            download_url="https://host.wxgwxha.eu.org/https://github.com/zhboner/realm/releases/download/${_version}/realm-x86_64-apple-darwin.tar.gz"
             ;;
         aarch64-linux)
-            download_url="https://github.com/zhboner/realm/releases/download/${_version}/realm-aarch64-unknown-linux-gnu.tar.gz"
+            download_url="https://host.wxgwxha.eu.org/https://github.com/zhboner/realm/releases/download/${_version}/realm-aarch64-unknown-linux-gnu.tar.gz"
             ;;
         aarch64-darwin)
-            download_url="https://github.com/zhboner/realm/releases/download/${_version}/realm-aarch64-apple-darwin.tar.gz"
+            download_url="https://host.wxgwxha.eu.org/https://github.com/zhboner/realm/releases/download/${_version}/realm-aarch64-apple-darwin.tar.gz"
             ;;
         arm-linux)
-            download_url="https://github.com/zhboner/realm/releases/download/${_version}/realm-arm-unknown-linux-gnueabi.tar.gz"
+            download_url="https://host.wxgwxha.eu.org/https://github.com/zhboner/realm/releases/download/${_version}/realm-arm-unknown-linux-gnueabi.tar.gz"
             ;;
         armv7-linux)
-            download_url="https://github.com/zhboner/realm/releases/download/${_version}/realm-armv7-unknown-linux-gnueabi.tar.gz"
+            download_url="https://host.wxgwxha.eu.org/https://github.com/zhboner/realm/releases/download/${_version}/realm-armv7-unknown-linux-gnueabi.tar.gz"
             ;;
         *)
             echo "不支持的架构: $arch-$os"
@@ -400,7 +400,7 @@ update_realm() {
     echo "> 检测并更新 realm"
 
     current_version=$(/root/realm/realm --version 2>/dev/null | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
-    tag_version=$(curl -Ls "https://api.github.com/repos/zhboner/realm/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+    tag_version=$(curl -Ls "https://host.wxgwxha.eu.org/https://api.github.com/repos/zhboner/realm/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
 
     if [[ -z "$tag_version" ]]; then
         echo -e "${red}获取 realm 版本失败，可能是由于 GitHub API 限制，请稍后再试${plain}"
@@ -415,7 +415,7 @@ update_realm() {
     echo -e "获取到 realm 最新版本: ${tag_version}，开始安装..."
 
     arch=$(uname -m)
-    wget -N --no-check-certificate -O /root/realm/realm.tar.gz "https://github.com/zhboner/realm/releases/download/${tag_version}/realm-${arch}-unknown-linux-gnu.tar.gz"
+    wget -N --no-check-certificate -O /root/realm/realm.tar.gz "https://host.wxgwxha.eu.org/https://github.com/zhboner/realm/releases/download/${tag_version}/realm-${arch}-unknown-linux-gnu.tar.gz"
     
     if [[ $? -ne 0 ]]; then
         echo -e "${red}下载 realm 失败，请确保您的服务器可以访问 GitHub${plain}"
@@ -481,7 +481,7 @@ install_panel() {
     echo "检测到系统架构: $arch，将下载: $panel_file"
     
     # 下载面板文件
-    download_url="https://github.com/wcwq98/realm/releases/download/v2.1/${panel_file}"
+    download_url="https://host.wxgwxha.eu.org/https://github.com/wcwq98/realm/releases/download/v2.1/${panel_file}"
     if ! wget -O "${panel_file}" "$download_url"; then
     echo "下载失败，请检查网络连接或稍后再试。"
     return 1
@@ -551,8 +551,85 @@ uninstall_panel() {
 # 修改面板配置
 modify_panel_config() {
     echo "修改面板配置..."
-    # 在此添加修改配置的具体逻辑
-    echo "配置已修改。"
+    
+    # 配置文件路径
+    PANEL_CONFIG_PATH="/root/realm/web/config.toml"
+    
+    # 检查配置文件是否存在
+    if [ ! -f "$PANEL_CONFIG_PATH" ]; then
+        echo "配置文件不存在，将创建新的配置文件..."
+        # 创建默认配置文件
+        cat > "$PANEL_CONFIG_PATH" <<EOF
+[auth]
+password = "123456" # 面板密码
+
+[server]
+port = 8081 # 面板端口
+
+[https]
+enabled = false #是否开启HTTPS(强烈建议开启HTTPS)若certificate下没有证书不要开启此功能
+cert_file = "./certificate/cert.pem"
+key_file = "./certificate/private.key"
+EOF
+        echo "默认配置文件已创建。"
+    fi
+    
+    # 读取当前配置
+    current_password=$(grep "password = " "$PANEL_CONFIG_PATH" | sed 's/.*password = "\([^"]*\)".*/\1/')
+    current_port=$(grep "port = " "$PANEL_CONFIG_PATH" | sed 's/.*port = \([0-9]*\).*/\1/')
+    current_https=$(grep "enabled = " "$PANEL_CONFIG_PATH" | sed 's/.*enabled = \([^[:space:]]*\).*/\1/')
+    current_cert=$(grep "cert_file = " "$PANEL_CONFIG_PATH" | sed 's/.*cert_file = "\([^"]*\)".*/\1/')
+    current_key=$(grep "key_file = " "$PANEL_CONFIG_PATH" | sed 's/.*key_file = "\([^"]*\)".*/\1/')
+    
+    echo "当前配置："
+    echo "密码: $current_password"
+    echo "端口: $current_port"
+    echo "HTTPS: $current_https"
+    echo "证书文件: $current_cert"
+    echo "私钥文件: $current_key"
+    echo ""
+    
+    # 获取用户输入（显示当前值）
+    read -e -p "请输入面板密码 (当前: $current_password, 直接回车保持不变): " panel_password
+    panel_password=${panel_password:-$current_password}
+    
+    read -e -p "请输入面板端口 (当前: $current_port, 直接回车保持不变): " panel_port
+    panel_port=${panel_port:-$current_port}
+    
+    read -e -p "是否开启HTTPS? (当前: $current_https, Y/N, 直接回车保持不变): " enable_https
+    if [ -z "$enable_https" ]; then
+        enable_https=$current_https
+    fi
+    
+    # 修改配置文件中的密码
+    sed -i "s/password = \".*\"/password = \"$panel_password\"/" "$PANEL_CONFIG_PATH"
+    
+    # 修改配置文件中的端口
+    sed -i "s/port = [0-9]*/port = $panel_port/" "$PANEL_CONFIG_PATH"
+    
+    # 处理HTTPS配置
+    if [[ $enable_https == "true" || $enable_https == "Y" || $enable_https == "y" ]]; then
+        read -e -p "请输入证书文件路径 (当前: $current_cert, 直接回车保持不变): " cert_file
+        cert_file=${cert_file:-$current_cert}
+        
+        read -e -p "请输入私钥文件路径 (当前: $current_key, 直接回车保持不变): " key_file
+        key_file=${key_file:-$current_key}
+        
+        # 修改HTTPS配置
+        sed -i "s/enabled = .*/enabled = true/" "$PANEL_CONFIG_PATH"
+        sed -i "s|cert_file = \".*\"|cert_file = \"$cert_file\"|" "$PANEL_CONFIG_PATH"
+        sed -i "s|key_file = \".*\"|key_file = \"$key_file\"|" "$PANEL_CONFIG_PATH"
+        echo "HTTPS配置已启用。"
+    else
+        # 禁用HTTPS
+        sed -i "s/enabled = .*/enabled = false/" "$PANEL_CONFIG_PATH"
+        echo "HTTPS配置已禁用。"
+    fi
+    
+    echo "配置文件已更新: $PANEL_CONFIG_PATH"
+    echo "重启面板服务以应用新配置..."
+    systemctl restart realm-panel.service
+    echo "面板配置已修改并重启完成。"
 }
 
 # 主程序
